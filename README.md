@@ -6,6 +6,8 @@
 [![Next.js 14](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
 [![100% Free](https://img.shields.io/badge/Cost-₹0-green.svg)](#-free-deployment)
 
+**🚀 Live Demo: https://frontend-nubu2t5lw-audumber-11s-projects.vercel.app**
+
 Built for **Build with AI: Code for Communities Hackathon** — **Track 4: AgriN**
 
 ---

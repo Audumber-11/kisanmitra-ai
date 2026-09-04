@@ -7,8 +7,21 @@ import { NextResponse } from "next/server";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
+// Disease result type
+type DiseaseResult = {
+  plant_type: string;
+  disease_name: string;
+  local_name: string;
+  symptoms: string[];
+  confidence: string;
+  treatment: { type: string; name: string; dosage: string; application: string; timing: string; };
+  prevention: string[];
+  varieties: string[];
+  impact: string;
+};
+
 // Mock disease database (works without AI too)
-const DISEASE_DATABASE = [
+const DISEASE_DATABASE: DiseaseResult[] = [
   {
     plant_type: "Tomato",
     disease_name: "Late Blight",
@@ -114,7 +127,7 @@ const DISEASE_DATABASE = [
 ];
 
 // Default response for unknown conditions
-const DEFAULT_RESPONSE = {
+const DEFAULT_RESPONSE: DiseaseResult = {
   plant_type: "Unknown",
   disease_name: "Unable to identify",
   local_name: "",
