@@ -252,19 +252,4 @@ Built with ❤️ for Indian farmers at Build with AI Hackathon 2026
 
 ---
 
-## 🎥 Demo Video Script
 
-> Watch 2-minute demo at: [link]
-
-1. **0:00** - Problem statement (70% small farmers, language barriers)
-2. **0:20** - Landing page tour
-3. **0:35** - Voice advisory in Hindi (click mic, speak, get response)
-4. **0:55** - Disease detection (upload tomato photo, see diagnosis)
-5. **1:15** - Weather + Mandi alerts
-6. **1:35** - Carbon credit tracker
-7. **1:50** - Officer dashboard
-8. **2:00** - Impact statement + thank you
-
----
-
-**Built with 🌾 for India's farmers** 🇮🇳
