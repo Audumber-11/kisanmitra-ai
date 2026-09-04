@@ -8,7 +8,6 @@ import {
   Leaf,
   Phone,
   ArrowRight,
-  Star,
   Heart,
 } from "lucide-react";
 
@@ -89,11 +88,6 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-primary/5 via-primary/10 to-background py-20 md:py-32">
         <div className="container relative mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary mb-8 animate-fade-in">
-            <Star className="h-4 w-4" />
-            <span>Built for Build with AI: Code for Communities Hackathon • Track 4 AgriN</span>
-          </div>
-
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl mb-6 animate-fade-in">
             <span className="text-foreground">Kisan</span>
             <span className="text-primary">Mitra</span>
