@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { MOCK_WEATHER_DATA } from "@/lib/client-data";
 
 // Mock data for dashboard
 const mockStats = {
@@ -69,9 +70,11 @@ export default function DashboardPage() {
         if (response.ok) {
           const data = await response.json();
           setWeatherData(data);
+        } else {
+          setWeatherData(MOCK_WEATHER_DATA("Pune", "Maharashtra"));
         }
       } catch (error) {
-        console.error("Weather fetch error:", error);
+        setWeatherData(MOCK_WEATHER_DATA("Pune", "Maharashtra"));
       }
     };
     fetchWeather();

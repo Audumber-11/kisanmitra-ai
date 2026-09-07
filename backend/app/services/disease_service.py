@@ -147,8 +147,8 @@ async def get_disease_history(
 
 @router.get("/common-diseases")
 async def get_common_diseases(
-    crop_name: str | None = None,
     db: Annotated[AsyncClient, Depends(get_db)],
+    crop_name: str | None = None,
 ) -> list[dict]:
     """Get common diseases database."""
     query = db.table("crop_diseases").select("*")

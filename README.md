@@ -70,6 +70,33 @@ Open http://localhost:3000
 
 ---
 
+## 🤖 Enable Free AI Mode (Optional)
+
+Without an API key, the voice advisory uses a built-in knowledge base covering ~50 common farming topics in Hindi and Marathi (crops, diseases, pests, fertilizers, government schemes, irrigation, weather, livestock, mandi prices).
+
+To unlock **full AI chat** for any farming question:
+
+1. Visit https://openrouter.ai/keys
+2. Sign in with Google (no credit card required)
+3. Click **Create Key** (free tier: 50 requests/day)
+4. Add the key to your project:
+
+```bash
+# Interactive prompt — paste your key when asked
+cd frontend
+npm run setup-key
+```
+
+5. Restart the dev server: `npm run dev`
+
+**How it works:**
+- Your browser calls OpenRouter directly (no backend needed)
+- Fallback knowledge base works without any API key
+- A status badge shows whether responses come from **🤖 AI** or **📚 Knowledge Base**
+- OpenRouter models used: `qwen/qwen-2.5-7b-instruct:free` (best Hindi/Marathi support)
+
+---
+
 ## 📂 Project Structure
 
 ```

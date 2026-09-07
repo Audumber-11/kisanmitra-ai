@@ -175,8 +175,8 @@ async def log_regenerative_practice(
 @router.get("/estimate/{farm_id}", response_model=list[CarbonEstimate])
 async def estimate_carbon_credits(
     farm_id: str,
-    timeframe_years: int = 5,
     db: Annotated[AsyncClient, Depends(get_db)],
+    timeframe_years: int = 5,
 ) -> list[CarbonEstimate]:
     """
     Get carbon sequestration estimates for a farm.
@@ -196,7 +196,7 @@ async def estimate_carbon_credits(
     ).eq("verified", False).execute()
 
     estimates = []
-    for log in logs_result:
+    for log in logs_result.data:
         practice = log["practice"]
         area = log.get("area_hacres", farm.get("area_hacres", 0))
         intensity = log.get("intensity", "medium")
@@ -308,9 +308,9 @@ async def generate_carbon_report(
 
 @router.get("/summary", response_model=CarbonSummary)
 async def get_carbon_summary(
+    db: Annotated[AsyncClient, Depends(get_db)],
     district: str | None = None,
     state: str | None = None,
-    db: Annotated[AsyncClient, Depends(get_db)],
 ) -> CarbonSummary:
     """
     Get summary of carbon credits across all farms in a region.

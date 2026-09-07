@@ -134,36 +134,50 @@ class TestCarbonService:
     @pytest.mark.asyncio
     async def test_estimate_carbon_credits(self):
         """Test carbon credit estimation."""
-        mock_db = MagicMock()
-        mock_table = MagicMock()
-        mock_table.select.return_value = mock_table
-        mock_table.eq.return_value = mock_table
-        mock_table.execute = AsyncMock(
-            side_effect=[
-                MagicMock(data=[{"id": "farm-1", "area_hacres": 5.0}]),
-                MagicMock(
-                    data=[
-                        {
-                            "practice": "cover_crops",
-                            "area_hacres": 5.0,
-                            "intensity": "medium",
-                        }
-                    ]
-                ),
-            ]
+        # Build separate mock chains for farms and carbon_credit_logs tables
+        logs_table = MagicMock()
+        logs_table.select.return_value = logs_table
+        logs_table.eq.return_value = logs_table
+        logs_table.execute = AsyncMock(
+            return_value=MagicMock(
+                data=[
+                    {
+                        "practice": "cover_crops",
+                        "area_hacres": 5.0,
+                        "intensity": "medium",
+                    }
+                ]
+            )
         )
-        mock_db.table.return_value = mock_table
 
-        estimates = await estimate_carbon_credits("farm-1", 5, mock_db)
+        farms_table = MagicMock()
+        farms_table.select.return_value = farms_table
+        farms_table.eq.return_value = farms_table
+        farms_table.execute = AsyncMock(
+            return_value=MagicMock(data=[{"id": "farm-1", "area_hacres": 5.0}])
+        )
+
+        def table_side_effect(name):
+            if name == "farms":
+                return farms_table
+            if name == "carbon_credit_logs":
+                return logs_table
+            return MagicMock()
+
+        mock_db = MagicMock()
+        mock_db.table = MagicMock(side_effect=table_side_effect)
+
+        estimates = await estimate_carbon_credits("farm-1", mock_db, 5)
 
         assert len(estimates) == 1
         assert estimates[0].practice_type == "cover_crops"
         assert estimates[0].estimated_tco2_per_year == 5.0  # 1.0 * 5.0
         assert estimates[0].estimated_tco2_total == 25.0  # 5.0 * 5 years
 
-    def test_get_available_practices(self):
+    @pytest.mark.asyncio
+    async def test_get_available_practices(self):
         """Test getting list of available practices."""
-        practices = get_available_practices()
+        practices = await get_available_practices()
 
         assert len(practices) >= 8
         practice_types = [p["type"] for p in practices]

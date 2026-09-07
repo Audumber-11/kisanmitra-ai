@@ -19,6 +19,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { MOCK_MANDI_DATA, MOCK_WEATHER_DATA } from "@/lib/client-data";
 
 interface WeatherData {
   district: string;
@@ -77,9 +78,11 @@ export default function AlertsPage() {
         if (response.ok) {
           const data = await response.json();
           setWeatherData(data);
+        } else {
+          setWeatherData(MOCK_WEATHER_DATA(selectedDistrict, selectedState) as any);
         }
       } catch (error) {
-        console.error("Weather fetch error:", error);
+        setWeatherData(MOCK_WEATHER_DATA(selectedDistrict, selectedState) as any);
       } finally {
         setIsLoadingWeather(false);
       }
@@ -97,9 +100,11 @@ export default function AlertsPage() {
         if (response.ok) {
           const data = await response.json();
           setMandiPrices(data.prices);
+        } else {
+          setMandiPrices(MOCK_MANDI_DATA.prices as any);
         }
       } catch (error) {
-        console.error("Mandi fetch error:", error);
+        setMandiPrices(MOCK_MANDI_DATA.prices as any);
       } finally {
         setIsLoadingMandi(false);
       }

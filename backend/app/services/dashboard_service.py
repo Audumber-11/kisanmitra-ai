@@ -71,9 +71,9 @@ class MandiPriceSummary(BaseModel):
 
 @router.get("/stats", response_model=DashboardStats)
 async def get_dashboard_stats(
+    db: Annotated[AsyncClient, Depends(get_db)],
     district: str | None = None,
     state: str | None = None,
-    db: Annotated[AsyncClient, Depends(get_db)],
 ) -> DashboardStats:
     """
     Get overall dashboard statistics.
@@ -141,8 +141,8 @@ async def get_dashboard_stats(
 
 @router.get("/query-heatmap", response_model=list[QueryHeatmapEntry])
 async def get_query_heatmap(
-    state: str | None = None,
     db: Annotated[AsyncClient, Depends(get_db)],
+    state: str | None = None,
 ) -> list[QueryHeatmapEntry]:
     """Get query heatmap data for map visualization."""
     thirty_days_ago = (datetime.now() - timedelta(days=30)).isoformat()
@@ -183,9 +183,9 @@ async def get_query_heatmap(
 
 @router.get("/disease-outbreaks", response_model=list[DiseaseOutbreakEntry])
 async def get_disease_outbreaks(
+    db: Annotated[AsyncClient, Depends(get_db)],
     state: str | None = None,
     severity: Literal["low", "medium", "high", "critical"] | None = None,
-    db: Annotated[AsyncClient, Depends(get_db)],
 ) -> list[DiseaseOutbreakEntry]:
     """Get active disease outbreak data."""
     thirty_days_ago = (datetime.now() - timedelta(days=30)).isoformat()

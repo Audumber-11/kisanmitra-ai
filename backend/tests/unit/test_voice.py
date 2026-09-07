@@ -86,7 +86,11 @@ class TestVoiceService:
             "app.services.voice_service.get_gemini_service",
             return_value=mock_gemini_service,
         ):
-            mock_db.table.return_value.select.return_value.eq.return_value.execute = AsyncMock(
+            # Use separate mock chains for farmers vs advisory_logs tables
+            farmers_table = MagicMock()
+            farmers_table.select.return_value = farmers_table
+            farmers_table.eq.return_value = farmers_table
+            farmers_table.execute = AsyncMock(
                 return_value=MagicMock(
                     data=[{
                         "id": "farmer-1",
@@ -96,9 +100,21 @@ class TestVoiceService:
                     }]
                 )
             )
-            mock_db.table.return_value.insert.return_value.execute = AsyncMock(
+
+            logs_table = MagicMock()
+            logs_table.insert.return_value = logs_table
+            logs_table.execute = AsyncMock(
                 return_value=MagicMock(data=[{"id": "log-1"}])
             )
+
+            def table_side_effect(name):
+                if name == "farmers":
+                    return farmers_table
+                if name == "advisory_logs":
+                    return logs_table
+                return MagicMock()
+
+            mock_db.table = MagicMock(side_effect=table_side_effect)
 
             request = MagicMock()
             request.audio_data = "dGVzdA=="
